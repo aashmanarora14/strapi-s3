@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/my-project#
+file_exists_behavior: OVERWRITE
+hooks:
+  BeforeInstall:
+    - location: scripts/cleanup.sh
+      timeout: 600
+      runas: root
+  AfterInstall:
+    - location: scripts/deploy_strapi.sh
+      timeout: 600
+      runas: root
+  ApplicationStart:
+    - location: scripts/pm2_restart.sh
+      timeout: 600
+      runas: root
